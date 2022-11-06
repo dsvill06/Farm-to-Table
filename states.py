@@ -7,6 +7,23 @@ import constants
 import images
 from  sprite_set import Sprite
 
+def blit_text(surface, text, pos, font, color=pygame.Color('black')):
+    words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+    space = font.size(' ')[0]  # The width of a space.
+    max_width, max_height = surface.get_size()
+    x, y = pos
+    for line in words:
+        for word in line:
+            word_surface = font.render(word, 0, color)
+            word_width, word_height = word_surface.get_size()
+            if x + word_width >= max_width:
+                x = pos[0]  # Reset the x.
+                y += word_height  # Start on new row.
+            surface.blit(word_surface, (x, y))
+            x += word_width + space
+        x = pos[0]  # Reset the x.
+        y += word_height  # Start on new row.
+
 def title_screen(screen):
 
     font = pygame.font.Font('../pygame_test/learning_curve_alt_G_bold_ot_tt.ttf', 64)
@@ -20,23 +37,16 @@ def title_screen(screen):
     
     # create ui elements
     korn = UIElementImage(
-        center_position=(constants.X/4, 500),
-        img='../pygame_test/images/Corn_S.png',
-        size=(192,110),
+        center_position=(constants.X/3, 500),
+        img='../pygame_test/images/Corn_A.png',
         action=GameState.KORN
     )
     milk = UIElementImage(
-        center_position=(2 * (constants.X/4), 500),
-        img='../pygame_test/images/Milk_S.png',
-        size=(200,200),
+        center_position=(2 * (constants.X/3), 500),
+        img='../pygame_test/images/Milk_A.png',
         action=GameState.MILK
     )
-    eggs = UIElementImage(
-        center_position=(3* (constants.X/4), 500),
-        img='../pygame_test/images/Egg_S.png',
-        size=(192,110),
-        action=GameState.EGGS
-    )
+    
     quit_btn = UIElement(
         center_position=(50, 25),
         font_size=30,
@@ -47,14 +57,13 @@ def title_screen(screen):
     question_mark = UIElementImage(
         center_position = (750, 25),
         img = '../pygame_test/images/icons8-question-mark-48.png',
-        size=(100,100),
         action=GameState.QUESTION
     )
     
 
     
     
-    buttons = [milk, eggs, korn, quit_btn, question_mark]
+    buttons = [milk, korn, quit_btn, question_mark]
  
 
 
@@ -92,7 +101,6 @@ def korn(screen):
     tractor = UIElementImage(
         center_position=(725,70),
         img="../pygame_test/images/John Deere Tractor.png",
-        size=(100,100),
         action=GameState.TRACTOR
     )
     buttons = [return_btn, tractor]
@@ -136,29 +144,7 @@ def milk(screen):
 
         pygame.display.flip()
         
-def eggs(screen):
-    return_btn = UIElement(
-        center_position=(140, 570),
-        font_size=20,
-        text_rgb=constants.BLACK,
-        text="Return to main menu",
-        action=GameState.TITLE,
-    )
 
-    while True:
-        mouse_up = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                mouse_up = True
-        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
-        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        return_btn.draw(screen)
-
-        pygame.display.flip()
         
         
 def question_mark(screen):
@@ -169,15 +155,51 @@ def question_mark(screen):
         text="Return to main menu",
         action=GameState.TITLE,
     )
-    font = pygame.font.Font('../pygame_test/learning_curve_alt_G_bold_ot_tt.ttf', 64)
-    text = font.render('Farm-to-Table', True, constants.BLACK)
-    textRect = text.get_rect()
+    #open text file in read mode
+    text_file = open("../pygame_test/welcome.txt", "r")
+    
+    #read whole file to a string
+    data = text_file.read()
+    
+    
     
     # set the center of the rectangular object.
-    textRect.center = (constants.X // 2 +2, constants.Y // 3)
+   
     while True:
         mouse_up = False
         
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+
+        font = pygame.font.SysFont('Courier', 25)
+
+        blit_text(screen, data,(20,300),font)
+
+
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
+        #close file
+        text_file.close()
+        pygame.display.flip()
+        
+        
+def tractor(screen):
+    
+    return_btn = UIElement(
+        center_position=(140, 570),
+        font_size=20,
+        text_rgb=constants.BLACK,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    
+    while True:
+        mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
@@ -190,21 +212,3 @@ def question_mark(screen):
         return_btn.draw(screen)
 
         pygame.display.flip()
-        
-        
-# def tractor(screen):
-    
-#     while True:
-#         mouse_up = False
-#         for event in pygame.event.get():
-#             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-#                 mouse_up = True
-#         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
-#         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-
-#         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-#         if ui_action is not None:
-#             return ui_action
-#         return_btn.draw(screen)
-
-#         pygame.display.flip()

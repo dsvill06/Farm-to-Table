@@ -1,3 +1,3 @@
 Welcome to the Game
-You can choose between the three products bellow (Corn, Milk, and Eggs)
+You can choose between the three products bellow (Corn or Milk)
 You can follow the directions to see how the products begin and how they get produced to what you see at a supermarket

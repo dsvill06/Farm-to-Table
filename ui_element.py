@@ -75,7 +75,7 @@ class UIElement(Sprite):
 class UIElementImage(Sprite):
     """ An user interface element that can be added to a surface """
 
-    def __init__(self,center_position, img,size, action=None):
+    def __init__(self,center_position, img, action=None):
         """
         Args:
             center_position - tuple (x, y)
@@ -85,16 +85,19 @@ class UIElementImage(Sprite):
         self.mouse_over = False
 
         default_image = pygame.image.load(img)
+        default_image = pygame.transform.scale(default_image, (default_image.get_width(), default_image.get_height()))
 
-        highlighted_image = pygame.transform.scale(default_image, (size[0] * 2,size[1] *2))
+        highlighted_image = pygame.transform.scale(default_image, (default_image.get_width()*1.25, default_image.get_height()*1.25))
 
         self.images = [default_image, highlighted_image]
         self.rects = [
             default_image.get_rect(center=center_position),
             highlighted_image.get_rect(center=center_position),
         ]
-        # pygame.transform.scale(self.rects[0],(size[0],size[1]))
-        # pygame.transform.scale(self.rects[1],(size[0],size[1]))
+        
+        # self.rects[0] = self.rects[0].inflate((-250,-250))
+        # self.rects[1] = self.rects[1].inflate((-250,-250))
+
 
 
         # assign button action
@@ -130,6 +133,5 @@ class GameState(Enum):
     TITLE = 0
     KORN = 1
     MILK = 2
-    EGGS = 3
-    QUESTION = 4
-    TRACTOR=5
+    QUESTION = 3
+    TRACTOR=4
