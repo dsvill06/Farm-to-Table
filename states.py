@@ -9,7 +9,7 @@ from  sprite_set import Sprite
 
 def title_screen(screen):
 
-    font = pygame.font.Font('/Users/dvill/Documents/dev/pygame_test/learning_curve_alt_G_bold_ot_tt.ttf', 64)
+    font = pygame.font.Font('../pygame_test/learning_curve_alt_G_bold_ot_tt.ttf', 64)
  
     # create a text surface object,
     text = font.render('Farm-to-Table', True, constants.BLACK)
@@ -19,25 +19,22 @@ def title_screen(screen):
     textRect.center = (constants.X // 2 +2, constants.Y // 3)
     
     # create ui elements
-    korn = UIElement(
+    korn = UIElementImage(
         center_position=(constants.X/4, 500),
-        font_size=30,
-        text_rgb=constants.WHITE,
-        text="Corn",
+        img='../pygame_test/images/Corn_S.png',
+        size=(192,110),
         action=GameState.KORN
     )
-    milk = UIElement(
+    milk = UIElementImage(
         center_position=(2 * (constants.X/4), 500),
-        font_size=30,
-        text_rgb=constants.WHITE,
-        text=" Milk",
+        img='../pygame_test/images/Milk_S.png',
+        size=(200,200),
         action=GameState.MILK
     )
-    eggs = UIElement(
+    eggs = UIElementImage(
         center_position=(3* (constants.X/4), 500),
-        font_size=30,
-        text_rgb=constants.WHITE,
-        text="Eggs",
+        img='../pygame_test/images/Egg_S.png',
+        size=(192,110),
         action=GameState.EGGS
     )
     quit_btn = UIElement(
@@ -49,7 +46,8 @@ def title_screen(screen):
     )
     question_mark = UIElementImage(
         center_position = (750, 25),
-        img = '/Users/dvill/Documents/dev/pygame_test/images/icons8-question-mark-48.png',
+        img = '../pygame_test/images/icons8-question-mark-48.png',
+        size=(100,100),
         action=GameState.QUESTION
     )
     
@@ -62,7 +60,7 @@ def title_screen(screen):
 
     while True:
         mouse_up = False
-        bg_1 = pygame.image.load("/Users/dvill/Documents/dev/pygame_test/images/Farm-to-Table StartScreen.png")
+        bg_1 = pygame.image.load("../pygame_test/images/Farm-to-Table StartScreen.png")
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
         screen.blit(text, textRect)
 
@@ -93,9 +91,11 @@ def korn(screen):
     )
     tractor = UIElementImage(
         center_position=(725,70),
-        img="/Users/dvill/Documents/dev/pygame_test/images/John Deere Tractor.png",
+        img="../pygame_test/images/John Deere Tractor.png",
+        size=(100,100),
+        action=GameState.TRACTOR
     )
-    
+    buttons = [return_btn, tractor]
 
     while True:
         mouse_up = False
@@ -105,11 +105,11 @@ def korn(screen):
         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
         
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        return_btn.draw(screen)
-        tractor.draw(screen)
+        for button in buttons:
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
 
         pygame.display.flip()
         
@@ -169,9 +169,15 @@ def question_mark(screen):
         text="Return to main menu",
         action=GameState.TITLE,
     )
-
+    font = pygame.font.Font('../pygame_test/learning_curve_alt_G_bold_ot_tt.ttf', 64)
+    text = font.render('Farm-to-Table', True, constants.BLACK)
+    textRect = text.get_rect()
+    
+    # set the center of the rectangular object.
+    textRect.center = (constants.X // 2 +2, constants.Y // 3)
     while True:
         mouse_up = False
+        
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
@@ -188,3 +194,17 @@ def question_mark(screen):
         
 # def tractor(screen):
     
+#     while True:
+#         mouse_up = False
+#         for event in pygame.event.get():
+#             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+#                 mouse_up = True
+#         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+#         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+
+#         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+#         if ui_action is not None:
+#             return ui_action
+#         return_btn.draw(screen)
+
+#         pygame.display.flip()

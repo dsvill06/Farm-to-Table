@@ -75,27 +75,27 @@ class UIElement(Sprite):
 class UIElementImage(Sprite):
     """ An user interface element that can be added to a surface """
 
-    def __init__(self,center_position, img, action=None):
+    def __init__(self,center_position, img,size, action=None):
         """
         Args:
             center_position - tuple (x, y)
             text - string of text to write
-            font_size - int
-            bg_rgb (background colour) - tuple (r, g, b)
-            text_rgb (text colour) - tuple (r, g, b)
             action - the gamestate change associated with this button
         """
         self.mouse_over = False
 
         default_image = pygame.image.load(img)
 
-        highlighted_image = pygame.transform.scale(default_image, (50,50))
+        highlighted_image = pygame.transform.scale(default_image, (size[0] * 2,size[1] *2))
 
         self.images = [default_image, highlighted_image]
         self.rects = [
             default_image.get_rect(center=center_position),
             highlighted_image.get_rect(center=center_position),
         ]
+        # pygame.transform.scale(self.rects[0],(size[0],size[1]))
+        # pygame.transform.scale(self.rects[1],(size[0],size[1]))
+
 
         # assign button action
         self.action = action
