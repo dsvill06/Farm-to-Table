@@ -38,16 +38,10 @@ def title_screen(screen):
     
     # create ui elements
     korn = UIElementImage(
-        center_position=(constants.X/3, 500),
+        center_position=(constants.X/2, 500),
         img='../pygame_test/images/Corn_A.png',
         action=GameState.KORN
     )
-    milk = UIElementImage(
-        center_position=(2 * (constants.X/3), 500),
-        img='../pygame_test/images/Milk_A.png',
-        action=GameState.MILK
-    )
-    
     quit_btn = UIElement(
         center_position=(50, 25),
         font_size=30,
@@ -61,13 +55,8 @@ def title_screen(screen):
         action=GameState.QUESTION
     )
     
-
-    
-    
-    buttons = [milk, korn, quit_btn, question_mark]
+    buttons = [korn, quit_btn, question_mark]
  
-
-
     while True:
         mouse_up = False
         bg_1 = pygame.image.load("../pygame_test/images/Farm-to-Table StartScreen.png")
@@ -77,7 +66,9 @@ def title_screen(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
        
        
 
@@ -100,12 +91,12 @@ def korn(screen):
         action=GameState.TITLE,
     )
     tractor = UIElementImage(
-        center_position=(725,70),
+        center_position=(50,450),
         img="../pygame_test/images/John Deere Tractor.png",
         action=GameState.TRACTOR
     )
     buttons = [return_btn, tractor]
-    text= "The first step is to use the tractor on the land!"
+    text= f"The first step is to use the tractor on the land!\nClick on the tractor to go through the land!"
     font = pygame.font.SysFont("Courier",20)
     
     while True:
@@ -113,6 +104,9 @@ def korn(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
         blit_text(screen,text,(400,300),font)
@@ -121,35 +115,9 @@ def korn(screen):
             if ui_action is not None:
                 return ui_action
             button.draw(screen)
+        
 
         pygame.display.flip()
-        
-        
-def milk(screen):
-    return_btn = UIElement(
-        center_position=(140, 570),
-        font_size=20,
-        text_rgb=constants.BLACK,
-        text="Return to main menu",
-        action=GameState.TITLE,
-    )
-
-    while True:
-        mouse_up = False
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                mouse_up = True
-        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
-        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        return_btn.draw(screen)
-
-        pygame.display.flip()
-        
-
-        
         
 def question_mark(screen):
     return_btn = UIElement(
@@ -175,12 +143,16 @@ def question_mark(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
 
         font = pygame.font.SysFont('Courier', 25)
 
         blit_text(screen, data,(20,300),font)
+        
 
 
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -190,6 +162,7 @@ def question_mark(screen):
         #close file
         text_file.close()
         pygame.display.flip()
+    
         
         
 def tractor(screen):
@@ -207,7 +180,6 @@ def tractor(screen):
     font = pygame.font.SysFont('Courier', 25)
     # create a text surface object,
     text = ('The tractor moves along the field and plows it in order to make an area suitable for the seeds to grow!')
-    
    
     
     while True:
@@ -215,22 +187,22 @@ def tractor(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-                
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60(14)(15)(16)(17)(18)(19)(20)(21)(22)(23)(24)(25)(26).png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+        
+        tractor.update_direction()
+        tractor.draw(screen)
+
+        
         ui_action = arrow.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
             return ui_action
-        tractor.update_direction()
-        tractor.draw(screen)
-        blit_text(screen, text,(400,300),font)
-        
         arrow.draw(screen)
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
+
+        blit_text(screen, text,(400,300),font)
             
         pygame.display.flip()
         
@@ -239,8 +211,8 @@ def tractor(screen):
 def seed(screen):
     seed = UIElementImage(
         center_position=(725,70),
-        img=("../pygame_test/images/seed.png"),
-        action=GameState.PlANT
+        img="../pygame_test/images/seed.png",
+        action=GameState.PLANT
     )
     
     return_btn = UIElement(
@@ -250,8 +222,40 @@ def seed(screen):
         text="Return to main menu",
         action=GameState.TITLE,
     )
+    text= "Now to plant the seeds!"
+    font = pygame.font.SysFont("Courier",20)
+    
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        bg_1 = pygame.image.load('../pygame_test/images/addseeds.png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 650)), (0, 0))
+        blit_text(screen,text,(400,500),font)
+        ui_action = seed.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        seed.draw(screen)
+        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        return_btn.draw(screen)
+            
+        pygame.display.flip()
+        
+        
+def plant(screen):
+    water_bucket = UIElementImage(
+        center_position=(750, 70),
+        img="../pygame_test/images/WateringCan3.png",
+        action=GameState.GROW_1
+    )
     font = pygame.font.SysFont("Courier", 25)
-    text = "Next the seeds must be planted!"
+    text = "Time to give the seeds some water!"
     
     while True:
         mouse_up = False
@@ -259,13 +263,104 @@ def seed(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('../pygame_test/images/addseeds.png')
-        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-        seed.update(pygame.mouse.get_pos(), mouse_up)
-        seed.draw(screen)
-        ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        bg_1 = pygame.image.load('../pygame_test/images/seeds_added.png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 650)), (0, 0))
+
+        font = pygame.font.SysFont('Courier', 25)
+
+        blit_text(screen, text,(20,150),font)
+
+
+        ui_action = water_bucket.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
             return ui_action
-        return_btn.draw(screen)
+        water_bucket.draw(screen)
         pygame.display.flip()
         
+    
+def grow_1(screen):
+    arrow = UIElementImage(
+        center_position=(750,50),
+        img="../pygame_test/images/output-onlinepngtools.png",
+        action=GameState.GROW_2
+    )
+    while True:
+        mouse_up = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        bg_1 = pygame.image.load('../pygame_test/images/Step_2_Farm.png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+        
+        ui_action = arrow.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        arrow.draw(screen)
+        
+        pygame.display.flip()
+      
+    
+    
+def grow_2(screen):
+    
+    scythe = UIElementImage(
+        center_position=(725,70),
+        img="../pygame_test/images/Scythe2.png",
+        action=GameState.FINISH
+    )
+    
+    
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        bg_1 = pygame.image.load('../pygame_test/images/Step_3_Farm.png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 650)), (0, 0))
+        ui_action = scythe.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        scythe.draw(screen)
+        pygame.display.flip()
+                      
+        
+def finish(screen):
+    quit_btn = UIElement(
+        center_position=(50, 25),
+        font_size=30,
+        text_rgb=constants.BLACK,
+        text="Quit",
+        action=GameState.QUIT,
+    )
+
+    while True:
+        mouse_up = False
+        bg_1 = pygame.image.load("../pygame_test/images/EndScreen.png")
+        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+       
+  
+        ui_action = quit_btn.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        quit_btn.draw(screen)
+        
+        pygame.display.flip()
+        
+    

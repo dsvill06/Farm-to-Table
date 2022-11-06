@@ -3,7 +3,7 @@ import pygame.freetype
 from pygame.sprite import Sprite
 from pygame.rect import Rect
 from ui_element import UIElement, GameState
-from states import title_screen, korn, milk, question_mark, tractor,seed
+from states import title_screen, korn, question_mark, tractor,seed, plant, grow_1, finish, grow_2
 import constants
 import images
 
@@ -15,8 +15,8 @@ def main():
     game_state = GameState.TITLE
 
 
-    # pygame.mixer.music.load('../pygame_test/Old-macdonald-had-a-farm.mp3')
-    # pygame.mixer.music.play(-1)
+    pygame.mixer.music.load('../pygame_test/Old-macdonald-had-a-farm.mp3')
+    pygame.mixer.music.play(-1)
     
 
     # main loop
@@ -27,10 +27,7 @@ def main():
 
         if game_state == GameState.KORN:
             game_state = korn(screen)
-            
-        if game_state == GameState.MILK:
-            game_state = milk(screen)
-            
+                
         if game_state == GameState.QUESTION:
             game_state = question_mark(screen)
         if game_state == GameState.TRACTOR:
@@ -38,10 +35,23 @@ def main():
             
         if game_state == GameState.SEED:
             game_state = seed(screen)
-
+            
+        if game_state == GameState.PLANT:
+            game_state = plant(screen)
+            
+        if game_state == GameState.GROW_1:
+            game_state = grow_1(screen)
+            
+        if game_state == GameState.GROW_2:
+            game_state = grow_2(screen)
+            
+        if game_state == GameState.FINISH:
+            game_state = finish(screen)
+            
         if game_state == GameState.QUIT:
             pygame.quit()
             return
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()

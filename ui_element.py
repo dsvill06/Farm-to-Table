@@ -78,7 +78,7 @@ class UIElementImage(Sprite):
         """
         Args:
             center_position - tuple (x, y)
-            text - string of text to write
+            img-str location of image file
             action - the gamestate change associated with this button
         """
         self.mouse_over = False
@@ -94,12 +94,6 @@ class UIElementImage(Sprite):
             highlighted_image.get_rect(center=center_position),
         ]
         
-        # self.rects[0] = self.rects[0].inflate((-250,-250))
-        # self.rects[1] = self.rects[1].inflate((-250,-250))
-
-
-
-        # assign button action
         self.action = action
 
         super().__init__()
@@ -127,12 +121,11 @@ class UIElementImage(Sprite):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
     def update_direction(self):
-        self.rect.x += 3 
+        """Creates a moving simulation horizontally"""
+        self.rect.x += 2
         if self.rect.x > 100:
             return self.action
-    def update_new_state(self, game_state):
-        self.action = game_state
-        return self.action
+ 
     
         
   
@@ -144,7 +137,11 @@ class GameState(Enum):
     KORN = 1
     MILK = 2
     QUESTION = 3
-    TRACTOR=4
+    TRACTOR = 4
     SEED = 5
-    PlANT = 6
+    PLANT = 6
+    GROW_1 = 7
+    GROW_2 = 8
+    FINISH = 9
+    
     
