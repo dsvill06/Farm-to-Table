@@ -342,7 +342,14 @@ def finish(screen):
         text="Quit",
         action=GameState.QUIT,
     )
-
+    return_btn = UIElement(
+        center_position=(140, 570),
+        font_size=20,
+        text_rgb=constants.BLACK,
+        text="Return to main menu",
+        action=GameState.TITLE,
+    )
+    buttons = [quit_btn,return_btn]
     while True:
         mouse_up = False
         bg_1 = pygame.image.load("../pygame_test/images/EndScreen.png")
@@ -354,12 +361,16 @@ def finish(screen):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            
        
-  
-        ui_action = quit_btn.update(pygame.mouse.get_pos(), mouse_up)
-        if ui_action is not None:
-            return ui_action
-        quit_btn.draw(screen)
+        for button in buttons:
+            
+            ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
+            if ui_action is not None:
+                return ui_action
+            button.draw(screen)
+        
+    
         
         pygame.display.flip()
         
