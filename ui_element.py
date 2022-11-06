@@ -7,7 +7,6 @@ import constants
 
 
 
-
 def create_surface_with_text(text, font_size, text_rgb):
     """ Returns surface with text written on """
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
@@ -74,7 +73,7 @@ class UIElement(Sprite):
         
 class UIElementImage(Sprite):
     """ An user interface element that can be added to a surface """
-
+    
     def __init__(self,center_position, img, action=None):
         """
         Args:
@@ -104,7 +103,7 @@ class UIElementImage(Sprite):
         self.action = action
 
         super().__init__()
-
+    
     @property
     def image(self):
         return self.images[1] if self.mouse_over else self.images[0]
@@ -127,6 +126,17 @@ class UIElementImage(Sprite):
     def draw(self, surface):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
+    def update_direction(self):
+        self.rect.x += 3 
+        if self.rect.x > 100:
+            return self.action
+    def update_new_state(self, game_state):
+        self.action = game_state
+        return self.action
+    
+        
+  
+        
         
 class GameState(Enum):
     QUIT = -1
@@ -135,3 +145,6 @@ class GameState(Enum):
     MILK = 2
     QUESTION = 3
     TRACTOR=4
+    SEED = 5
+    PlANT = 6
+    

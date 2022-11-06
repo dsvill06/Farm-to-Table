@@ -7,6 +7,7 @@ import constants
 import images
 from  sprite_set import Sprite
 
+
 def blit_text(surface, text, pos, font, color=pygame.Color('black')):
     words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
     space = font.size(' ')[0]  # The width of a space.
@@ -104,7 +105,9 @@ def korn(screen):
         action=GameState.TRACTOR
     )
     buttons = [return_btn, tractor]
-
+    text= "The first step is to use the tractor on the land!"
+    font = pygame.font.SysFont("Courier",20)
+    
     while True:
         mouse_up = False
         for event in pygame.event.get():
@@ -112,7 +115,7 @@ def korn(screen):
                 mouse_up = True
         bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-        
+        blit_text(screen,text,(400,300),font)
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
             if ui_action is not None:
@@ -120,6 +123,7 @@ def korn(screen):
             button.draw(screen)
 
         pygame.display.flip()
+        
         
 def milk(screen):
     return_btn = UIElement(
@@ -189,6 +193,55 @@ def question_mark(screen):
         
         
 def tractor(screen):
+    tractor = Sprite(
+        img="../pygame_test/images/John Deere Tractor.png",
+        center_position=(0,450),
+
+    )
+    arrow = UIElementImage(
+        center_position=(750,50),
+        img="../pygame_test/images/output-onlinepngtools.png",
+        action=GameState.SEED
+    )
+    
+    font = pygame.font.SysFont('Courier', 25)
+    # create a text surface object,
+    text = ('The tractor moves along the field and plows it in order to make an area suitable for the seeds to grow!')
+    
+   
+    
+    while True:
+        mouse_up = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                mouse_up = True
+                
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60(14)(15)(16)(17)(18)(19)(20)(21)(22)(23)(24)(25)(26).png')
+        screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
+        ui_action = arrow.update(pygame.mouse.get_pos(), mouse_up)
+        if ui_action is not None:
+            return ui_action
+        tractor.update_direction()
+        tractor.draw(screen)
+        blit_text(screen, text,(400,300),font)
+        
+        arrow.draw(screen)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
+            
+        pygame.display.flip()
+        
+    
+    
+def seed(screen):
+    seed = UIElementImage(
+        center_position=(725,70),
+        img=("../pygame_test/images/seed.png"),
+        action=GameState.PlANT
+    )
     
     return_btn = UIElement(
         center_position=(140, 570),
@@ -197,18 +250,22 @@ def tractor(screen):
         text="Return to main menu",
         action=GameState.TITLE,
     )
+    font = pygame.font.SysFont("Courier", 25)
+    text = "Next the seeds must be planted!"
     
     while True:
         mouse_up = False
+        
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        bg_1 = pygame.image.load('../pygame_test/images/addseeds.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
-
+        seed.update(pygame.mouse.get_pos(), mouse_up)
+        seed.draw(screen)
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
             return ui_action
         return_btn.draw(screen)
-
         pygame.display.flip()
+        

@@ -2,13 +2,13 @@
 import pygame
 import constants
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, img, action=None):
+    def __init__(self, img, center_position, action=None):
         
   
         self.image = pygame.image.load(img)
         
     
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=center_position)
         self.action = action
  
     def update(self, mouse_pos, mouse_up):
@@ -25,4 +25,8 @@ class Sprite(pygame.sprite.Sprite):
     def draw(self, surface):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
+    def update_direction(self):
+        self.rect.x += 3
+        if self.rect.x > 100:
+            return
         
