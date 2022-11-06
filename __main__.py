@@ -14,7 +14,7 @@ def main():
     screen = pygame.display.set_mode((constants.X,constants.Y))
     pygame.display.set_caption('Farm-to-Table')
     game_state = GameState.TITLE
-    pygame.mixer.music.load('../pygame_test/start_screen.py')
+    pygame.mixer.music.load('../pygame_test/Old-macdonald-had-a-farm.mp3')
     pygame.mixer.music.play(-1)
     
 

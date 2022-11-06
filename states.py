@@ -52,12 +52,11 @@ def title_screen(screen):
         img = '/Users/dvill/Documents/dev/pygame_test/images/icons8-question-mark-48.png',
         action=GameState.QUESTION
     )
-    # question_mark = Sprite('/Users/dvill/Documents/dev/pygame_test/images/icons8-question-mark-48.png', action=GameState.QUESTION)
-    # question_mark.rect.x = 750
+    
 
     
     
-    buttons = [milk, eggs, korn, quit_btn]
+    buttons = [milk, eggs, korn, quit_btn, question_mark]
  
 
 
@@ -73,9 +72,6 @@ def title_screen(screen):
         
        
        
-        question_mark.update(pygame.mouse.get_pos(),mouse_up)
-        question_mark.draw(screen)
-
 
         for button in buttons:
             ui_action = button.update(pygame.mouse.get_pos(), mouse_up)
@@ -95,22 +91,25 @@ def korn(screen):
         text="Return to main menu",
         action=GameState.TITLE,
     )
-    # tractor = UIElement(
-        
-    # )
+    tractor = UIElementImage(
+        center_position=(725,70),
+        img="/Users/dvill/Documents/dev/pygame_test/images/John Deere Tractor.png",
+    )
+    
 
     while True:
         mouse_up = False
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('/Users/dvill/Documents/dev/pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
         
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
             return ui_action
         return_btn.draw(screen)
+        tractor.draw(screen)
 
         pygame.display.flip()
         
@@ -128,7 +127,7 @@ def milk(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('/Users/dvill/Documents/dev/pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
         if ui_action is not None:
@@ -151,7 +150,7 @@ def eggs(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('/Users/dvill/Documents/dev/pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
 
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -176,7 +175,7 @@ def question_mark(screen):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 mouse_up = True
-        bg_1 = pygame.image.load('/Users/dvill/Documents/dev/pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
+        bg_1 = pygame.image.load('../pygame_test/images/pixel-art-game-background-grass-sky-clouds_210544-60.png')
         screen.blit(pygame.transform.scale(bg_1, (800, 600)), (0, 0))
 
         ui_action = return_btn.update(pygame.mouse.get_pos(), mouse_up)
@@ -185,3 +184,7 @@ def question_mark(screen):
         return_btn.draw(screen)
 
         pygame.display.flip()
+        
+        
+# def tractor(screen):
+    

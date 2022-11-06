@@ -132,3 +132,4 @@ class GameState(Enum):
     MILK = 2
     EGGS = 3
     QUESTION = 4
+    TRACTOR=5
